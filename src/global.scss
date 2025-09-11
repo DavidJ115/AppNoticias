@@ -25,6 +25,8 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+
+
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
@@ -35,3 +37,83 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+.text-primary{
+    color: var(--ion-color-primary);
+}
+
+.article-source-name{
+    font-size: 12px;
+}
+
+.secondary{
+    color: red !important;
+}
+
+ion-action-sheet {
+  z-index: 9999 !important;
+}
+
+
+
+/* =========================================================
+//    UTILIDADES IONIC (compatibilidad con clases antiguas)
+//    ========================================================= */
+
+// /* 🔹 Bordes */
+// .i-no-border {
+//   --border-width: 0 !important; 
+//   --border-color: transparent !important;
+//   --box-shadow: none !important;
+//   border: none !important;
+//   box-shadow: none !important;
+// }
+
+// /* 🔹 Márgenes */
+// .i-margin {
+//   margin: 16px !important;
+// }
+// .i-no-margin {
+//   margin: 0 !important;
+// }
+// .i-margin-top {
+//   margin-top: 16px !important;
+// }
+// .i-margin-bottom {
+//   margin-bottom: 16px !important;
+// }
+// .i-margin-start {
+//   margin-left: 16px !important;
+// }
+// .i-margin-end {
+//   margin-right: 16px !important;
+// }
+
+// /* 🔹 Padding */
+// .i-padding {
+//   padding: 16px !important;
+// }
+// .i-no-padding {
+//   padding: 0 !important;
+// }
+// .i-padding-top {
+//   padding-top: 16px !important;
+// }
+// .i-padding-bottom {
+//   padding-bottom: 16px !important;
+// }
+// .i-padding-start {
+//   padding-left: 16px !important;
+// }
+// .i-padding-end {
+//   padding-right: 16px !important;
+// }
+// .i-padding-horizontal {
+//   padding-left: 16px !important;
+//   padding-right: 16px !important;
+// }
+// .i-padding-vertical {
+//   padding-top: 16px !important;
+//   padding-bottom: 16px !important;
+// }
