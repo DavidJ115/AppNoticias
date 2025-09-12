@@ -6,12 +6,47 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" mode="ios" class="ion-no-border">
-  <ion-header collapse="condense">
+<ion-content>
+
+  <ion-header collapse="condense" mode="ios" class="ion-no-border">
     <ion-toolbar>
       <ion-title size="large" color="primary">Favoritos</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ng-container *ngIf="favorites.length > 0; else noFavorites">
+    <ion-card *ngFor="let article of favorites; let i = index">
+      <ion-card-subtitle class="ion-margin">
+        <ion-row class="ion-align-items-center">
+          <ion-col class="ion-margin" (click)="openArticle(article)">
+            <span class="text-primary">{{ i + 1 }}. </span>
+            <span class="article-source-name">{{ article.source?.name || 'Fuente desconocida' }}</span>
+          </ion-col>
+
+          <ion-col align="end">
+            <ion-button color="danger" fill="clear" (click)="removeFavorite(article)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+             <ion-button color="primary" fill="clear" (click)="onShareArticle(article)">
+              <ion-icon slot="icon-only" name="share-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-subtitle>
+
+      <ion-card-title class="ion-padding-horizontal ion-margin-bottom">
+        {{ article.title }}
+      </ion-card-title>
+
+      <ion-img *ngIf="article.urlToImage" [src]="article.urlToImage" (click)="openArticle(article)"></ion-img>
+
+      <ion-card-content *ngIf="article.description">
+        <p>{{ article.description }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-template #noFavorites>
+    <ion-label class="ion-text-center">No hay favoritos</ion-label>
+  </ng-template>
 </ion-content>

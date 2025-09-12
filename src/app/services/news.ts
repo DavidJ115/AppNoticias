@@ -5,6 +5,9 @@ import { environment } from 'src/environments/environment.prod';
 import { Article, ArticleByCategoryAndPage, NewsResponse } from '../interfaces';
 import { Observable, of } from 'rxjs';
 import {  map } from "rxjs/operators";
+import { storedArticlesByCategory } from '../data/mock-news';
+
+
 
 const apiKey = environment.apiKey;
 
@@ -13,7 +16,8 @@ const apiKey = environment.apiKey;
 })
 export class News {
 
-  private articlesByCategoryAndPage: ArticleByCategoryAndPage = {};
+  //Quitar el storedArticlesByCategory y colocar {} para usar la API
+  private articlesByCategoryAndPage: ArticleByCategoryAndPage = storedArticlesByCategory;
 
   constructor(private http:HttpClient){}
 
@@ -37,6 +41,9 @@ export class News {
   }
 
   getTopHeadLinesByCategory(category:string, loadMore:boolean=false):Observable<Article[]>{
+    
+    //Linea para cargar data local, la funcion if no carga ya que está todo local.
+    return of(this.articlesByCategoryAndPage[category].articles);
 
     if(loadMore){
       this.getArticlesByCategory(category);

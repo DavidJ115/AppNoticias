@@ -17,7 +17,7 @@ import { ArticleComponent } from "src/app/components/article/article.component";
 })
 export class Tab1Page implements OnInit{
 
-  @ViewChild(IonInfiniteScroll, {static: true} ) infiniteScroll: IonInfiniteScroll | undefined;
+  @ViewChild(IonInfiniteScroll, {static: true} ) infiniteScroll: IonInfiniteScroll;
 
   public articles: Article[] = [];
 
@@ -29,7 +29,7 @@ export class Tab1Page implements OnInit{
   }
 
   loadData() {
-    this.newsService.getTopHeadLinesByCategory('bussiness', true).subscribe(articles =>{
+    this.newsService.getTopHeadLinesByCategory('business', true).subscribe(articles =>{
       
       if (articles.length === this.articles.length){
         this.infiniteScroll!.disabled=true;
@@ -39,7 +39,7 @@ export class Tab1Page implements OnInit{
       }
 
       this.articles = articles;
-      this.infiniteScroll?.complete();
+      this.infiniteScroll.complete();
       //event.target.complete();
       
     });

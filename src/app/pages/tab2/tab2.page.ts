@@ -46,7 +46,7 @@ export class Tab2Page implements OnInit {
       }
 
       this.articles = articles;
-      this.infiniteScroll?.complete();
+      this.infiniteScroll.complete();
       //event.target.complete();
       
     });

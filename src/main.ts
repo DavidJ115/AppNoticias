@@ -9,8 +9,11 @@ import { AppComponent } from './app/app.component';
 
 //Plugin para enlaces web
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
-import { defineCustomElements } from 'ionicons/dist/loader';
 
+import { defineCustomElements } from 'ionicons/dist/loader';
+import { provideStorage } from '@ionic/storage-angular';
+import { isDevMode } from '@angular/core';
+import { provideServiceWorker } from '@angular/service-worker';
 
 const routes2: Routes = [
   {
@@ -25,8 +28,13 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(),
-    InAppBrowser
-  ],
+    InAppBrowser, provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          }),
+    
+
+  ]
 });
 
 defineCustomElements(window);
