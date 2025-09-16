@@ -9,6 +9,7 @@ import { Platform } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 
 import { addIcons } from 'ionicons'
+import { of } from 'rxjs';
 
 addIcons({
   'trash-outline': trashOutline,
@@ -20,7 +21,7 @@ addIcons({
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
   standalone: true,
-  imports: [IonCol, IonActionSheet, IonItem, IonLabel, IonToolbar, IonTitle ,IonHeader, IonButton, IonIcon, IonList, IonContent, CommonModule, IonCard, IonCardSubtitle, IonRow, IonCardContent, IonCardTitle, IonImg],
+  imports: [IonCol, IonLabel, IonToolbar, IonTitle ,IonHeader, IonButton, IonIcon, IonContent, CommonModule, IonCard, IonCardSubtitle, IonRow, IonCardContent, IonCardTitle, IonImg],
 })
 export class Tab3Page implements OnInit {
 
@@ -36,12 +37,27 @@ export class Tab3Page implements OnInit {
   }
 
   async ionViewWillEnter() {
-    // Recargar cada vez que entres a la tab
     await this.loadFavorites();
   }
 
-  async loadFavorites() {
+
+
+  // Refresca la lista de favoritos
+  private async loadFavorites() {
     this.favorites = await this.storageService.getFavorites();
+  }
+
+
+  // Toggle favorito con refresh inmediato
+async addToFavorites(article: Article) {
+  await this.storageService.addFavorite(article);
+  this.favorites = await this.storageService.getFavorites(); // refresca lista
+}
+
+  // Chequea si un artículo es favorito
+  async isFavorite(article: Article): Promise<boolean> {
+    return (await this.storageService.getFavorites())
+        .some(a => a.url.trim().toLowerCase() === article.url.trim().toLowerCase());
   }
 
   async removeFavorite(article: Article) {
@@ -49,9 +65,9 @@ export class Tab3Page implements OnInit {
     await this.loadFavorites();
   }
 
-    openArticle(article: Article){
-
-      if (!article?.url) return; // seguridad extra
+  openArticle(article: Article){
+    if (!article?.url) return; // seguridad extra
+    
     if (this.platform.is('ios') || this.platform.is('android')){
       const browser= this.iab.create(article.url);
       browser.show();

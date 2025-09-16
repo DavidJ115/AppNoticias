@@ -6,29 +6,14 @@ import { Article } from '../interfaces/index';
   providedIn: 'root'
 })
 export class StorageService {
-  // private _storage: Storage | null=null;
-  // private _localArticles: Article[]=[];
 
-  // constructor ( private storage: Storage){
-  //   this.init();
-  // }
-
-  // async init(){
-  //   const storage = await this.storage.create();
-  //   this._storage = storage;
-
-  // }
-
-  // async saveRemoveArticle (article:Article){
-  //   this._localArticles = [ article, ...this._localArticles];  
-    
-  //   this._storage?.set('articles', this._localArticles);
-  // }
-
-
-   private STORAGE_KEY = 'favorite_articles';
+  private STORAGE_KEY = 'favorite_articles';
 
   constructor() {}
+  
+  private normalizeUrl(url: string): string {
+    return url.trim().toLowerCase();
+  }
 
   async getFavorites(): Promise<Article[]> {
     const data = localStorage.getItem(this.STORAGE_KEY);
@@ -37,24 +22,28 @@ export class StorageService {
 
   async isFavorite(article: Article): Promise<boolean> {
     const favs = await this.getFavorites();
-    return favs.some(a => a.url === article.url);
+    return favs.some(a => this.normalizeUrl(a.url) === this.normalizeUrl(article.url));
   }
 
-  async addFavorite(article: Article) {
+  async addFavorite(article: Article): Promise<void>{
     const favs = await this.getFavorites();
-    if (!favs.some(a => a.url === article.url)) {
-      favs.push(article);
+    const exists = favs.some(a => this.normalizeUrl(a.url) === this.normalizeUrl(article.url));
+
+    if (!exists) {
+      favs.push(article);            
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favs));
     }
+    // si ya existe, no tocar nada
   }
 
-  async removeFavorite(article: Article) {
-    let favs = await this.getFavorites();
-    favs = favs.filter(a => a.url !== article.url);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favs));
+  async removeFavorite(article: Article): Promise<void> {
+    const favs = await this.getFavorites();
+
+    const filtered = favs.filter(a => this.normalizeUrl(a.url) !== this.normalizeUrl(article.url));
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(filtered));
   }
 
-  async toggleFavorite(article: Article) {
+  async toggleFavorite(article: Article): Promise<void> {
     if (await this.isFavorite(article)) {
       await this.removeFavorite(article);
     } else {

@@ -109,7 +109,7 @@ export class ArticleComponent  {
 
   async onToggleFavorite(){
    //this.storageService.saveRemoveArticle(this.article);
-    await this.storageService.toggleFavorite(this.article);
+    await this.storageService.addFavorite(this.article);
     this.actionSheetOpen = false;
   }
 
